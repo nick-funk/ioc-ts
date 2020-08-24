@@ -1,16 +1,17 @@
-import express from "express";
+import "reflect-metadata";
+import {container} from "tsyringe";
 
-const app = express();
-const port = 3000;
+import { ExpressApp } from "./expressApp";
+import { Core } from "./core";
+import { HomeController } from "./controllers/home";
 
-app.get("/", (req, res) => {
-    res.send("Hello");
-});
+// Controllers
+container.register<HomeController>(HomeController, { useClass: HomeController });
 
-app.listen(port, (err) => {
-    if (err) {
-        return console.error(err);
-    }
+// Core app object
+container.registerSingleton<ExpressApp>(ExpressApp);
+container.registerSingleton<Core>(Core);
 
-    return console.log(`now listening on ${port}...`);
-});
+// Start it up
+const core = container.resolve(Core);
+core.run();
