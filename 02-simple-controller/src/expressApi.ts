@@ -2,7 +2,7 @@ import express, { Express } from "express";
 import {injectable} from "tsyringe";
 
 @injectable()
-export class ExpressApp {
+export class ExpressApi {
     private app: Express;
 
     constructor() {
