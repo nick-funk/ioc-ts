@@ -1,20 +1,20 @@
 import { injectable } from "tsyringe";
 
 import { User } from "../models/User";
-import { Db } from "../db";
+import { UserRepository } from "../repositories/userRepository";
 
 @injectable()
 export class UserLoader {
-  private userRepository: Db;
+  private userRepository: UserRepository;
   private cache: User[];
 
-  constructor(userRepository: Db) {
+  constructor(userRepository: UserRepository) {
     this.userRepository = userRepository;
     this.cache = new Array<User>();
   }
 
   all(): User[] {
-    return this.userRepository.getAllUsers();
+    return this.userRepository.all();
   }
 
   get(id: string): User {
@@ -23,6 +23,6 @@ export class UserLoader {
       return cachedUser;
     }
 
-    return this.userRepository.getUser(id);
+    return this.userRepository.get(id);
   }
 }
